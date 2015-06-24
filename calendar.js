@@ -1,11 +1,12 @@
 //model for day
 var DayModel = Backbone.Model.extend({
-	defaults : {"value" : 1} //value will represent the date of a month
+	defaults : {"value" : 0} //value will represent the date of a month
 });
 //view for day
 var DayView = Backbone.View.extend({
 	render	: function(){
-		var day_value = this.model.get("value");
+		var default_day_value = this.model.get("value");
+		var day_value = default_day_value + 1;
 		this.$el.html('<p>' + day_value + '</p>');
 		console.log('render completed');
 	}
