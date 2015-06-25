@@ -1,6 +1,6 @@
 //model for day
 var DayModel = Backbone.Model.extend({
-	defaults : {"value" : 0, "event": ""}, //value will represent the date of a month
+	defaults : {"value" : 1, "event": ""}, //value will represent the date of a month
 	initialize : function(){
 		this.fetch();
 	},
@@ -51,7 +51,7 @@ var DayCollectionView = Backbone.View.extend({
 	render : function(){
 		// var day_value = this.model.get("value");
 		// var current_day = '<p>' + day_value + '</p>';
-		var add_day_btn = '<button id="add_day">Add</button>';
+		var add_day_btn = '<button id="add_day">Add Day</button>';
 		this.$el.html(add_day_btn);
 	},
 	initialize: function(){
@@ -62,26 +62,32 @@ var DayCollectionView = Backbone.View.extend({
 		'click #add_day' : 'add_day_model'
 	},
 	add_day_model : function(){
-		this.collection.add({});
+
+		this.collection.add({id: idCount});
+		idCount++;
+		console.log('add_day_model');
 	},
 	add_day_view : function(new_model){
 		// console.log('add day view');
 		// console.log(this.collection.models[0]);
 		// console.log(this.collection.models[0].get("value"));
 		// console.log(this.collection.models.length)
-		this.collection.create({id : idCount});
-		idCount= idCount + 1;
-		var default_day_value = this.collection.models[this.collection.models.length-2].get("value");
+		// this.collection.create({id : idCount});
+		// idCount= idCount + 1;
+		var day_value = this.collection.models[this.collection.models.length-1].get("value");
 		// if(this.collection.models.length===2){
 		// 	console.log("collection is 2");
 		// }
-		var day_value = default_day_value + 1;
+		// default_day_value+= 1;
+		console.log(day_value);
+		// day_value++;
 		new_model.set("value", day_value);
 		// new_model.set("value", idCount); //this will create an incrementing list, but when page is refreshed, they change values
 		var view = new DayView({model: new_model});
 		view.render(); //if this line is commented out, then only one get is called.  The number for value is the same, but changes when you refresh the page
 		$("#calendarDiv").append(view.$el);
 		// console.log("new model added");
+		day_value++;
 	}
 })
 
