@@ -1,0 +1,10 @@
+.day {
+  border: 1px solid black;
+  height: 120px;
+  width: 120px;
+  /*display: inline-block;*/
+  float: left;
+}
+.event {
+	width: 100px;
+}
