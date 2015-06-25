@@ -53,7 +53,6 @@ var DayCollectionView = Backbone.View.extend({
 		// var current_day = '<p>' + day_value + '</p>';
 		var add_day_btn = '<button id="add_day">Add</button>';
 		this.$el.html(add_day_btn);
-		// console.log("day collection rendered");
 	},
 	initialize: function(){
 		this.listenTo(this.collection, 'add', this.add_day_view);
@@ -66,20 +65,28 @@ var DayCollectionView = Backbone.View.extend({
 		this.collection.add({});
 	},
 	add_day_view : function(new_model){
+		// console.log('add day view');
 		// console.log(this.collection.models[0]);
+		// console.log(this.collection.models[0].get("value"));
+		// console.log(this.collection.models.length)
 		this.collection.create({id : idCount});
 		idCount= idCount + 1;
 		var default_day_value = this.collection.models[this.collection.models.length-2].get("value");
+		// if(this.collection.models.length===2){
+		// 	console.log("collection is 2");
+		// }
 		var day_value = default_day_value + 1;
 		new_model.set("value", day_value);
+		// new_model.set("value", idCount); //this will create an incrementing list, but when page is refreshed, they change values
 		var view = new DayView({model: new_model});
-		view.render();
+		view.render(); //if this line is commented out, then only one get is called.  The number for value is the same, but changes when you refresh the page
 		$("#calendarDiv").append(view.$el);
 		// console.log("new model added");
 	}
 })
 
-var day_model1, day_view1, dayCollection, dayCollectionView;
+// var day_model1, day_view1, dayCollection, dayCollectionView;
+var dayCollection, dayCollectionView;
 $(document).ready(function(){
 	dayCollection = new DayCollection();
 	dayCollectionView = new DayCollectionView({collection : dayCollection});
