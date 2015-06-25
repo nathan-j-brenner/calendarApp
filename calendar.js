@@ -68,7 +68,7 @@ var DayCollectionView = Backbone.View.extend({
 	add_day_view : function(new_model){
 		// console.log(this.collection.models[0]);
 		this.collection.create({id : idCount});
-		idCount++;
+		idCount= idCount + 1;
 		var default_day_value = this.collection.models[this.collection.models.length-2].get("value");
 		var day_value = default_day_value + 1;
 		new_model.set("value", day_value);

@@ -11,7 +11,7 @@ var dates = [];
 
 //get: fetch from the Day_model, return the JSON object that packs up the value property from the dates array on the server
 app.get('/dates/:id', function(req, res){
-	console.log("date has been requested")
+	console.log("date has been requested");
 	var id = req.params.id;
 	res.send(JSON.stringify({value: dates[id]}));
 });
