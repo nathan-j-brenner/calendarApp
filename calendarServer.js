@@ -10,15 +10,15 @@ app.use(express.static(__dirname));
 var dates = [];
 
 //get: 
-app.get('/date/1', function(req, res){
+app.get('/dates/1', function(req, res){
 	console.log("date has been requested")
-	res.send(JSON.stringify({value: date}));
+	res.send(JSON.stringify({value: dates}));
 });
 
 //put
-app.put('/date/1', function(req, res){
+app.put('/dates/1', function(req, res){
 	console.log(req.body);
-	date = req.body.value;
+	dates = req.body.value;
 	res.end(JSON.stringify({}));
 });
 

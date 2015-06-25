@@ -1,8 +1,12 @@
 //model for day
 var DayModel = Backbone.Model.extend({
 	defaults : {"value" : 0, "event": ""}, //value will represent the date of a month
+	initialize : function(){
+		this.fetch();
+	},
 	replace : function(number){
 		this.set({"value" : number});
+		this.save();
 	}
 });
 
@@ -33,8 +37,14 @@ var DayView = Backbone.View.extend({
 
 //collection for days
 var DayCollection = Backbone.Collection.extend({
-	model : DayModel
+	model : DayModel,
+	url : "/dates",
+	initialize: function(){
+		this.fetch();
+	}
 });
+
+var idCount = 0;
 
 //view for day collection
 var DayCollectionView = Backbone.View.extend({
@@ -57,6 +67,8 @@ var DayCollectionView = Backbone.View.extend({
 	},
 	add_day_view : function(new_model){
 		// console.log(this.collection.models[0]);
+		this.collection.create({id : idCount});
+		idCount++;
 		var default_day_value = this.collection.models[this.collection.models.length-2].get("value");
 		var day_value = default_day_value + 1;
 		new_model.set("value", day_value);
