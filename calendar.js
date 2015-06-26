@@ -16,7 +16,9 @@ var DayView = Backbone.View.extend({
 		var day_value = this.model.get("value");
 		var event_value = this.model.get("event");
 		var event_btn = '<button id="add_event">Add Event</button>'
-		this.$el.html('<div class="day"><p id="date">' + day_value + '</p><br><input type="text" class="event"></input>'+ event_btn + '</div>');
+		var input = '<input type="text" class="event"></input>';
+		var input_text = '';
+		this.$el.html('<div class="day"><p id="date">' + day_value + '</p>' + '<br><p>' + input_text + '<p>' + '<br>' + input + event_btn + '</div>');
 	},
 	initialize: function(){
 		this.model.on("change", this.render, this);
@@ -31,6 +33,8 @@ var DayView = Backbone.View.extend({
 	},
 	create_new_event : function(){
 		//probably need to take this code and put in another collection
+		var str = this.$el.find("input").val();
+		this.model.replace(input_text);
 	}
 });
 
