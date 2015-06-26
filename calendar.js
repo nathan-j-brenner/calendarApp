@@ -12,8 +12,6 @@ var DayModel = Backbone.Model.extend({
 		this.set({'event': str_event});
 		this.save();
 	}
-
-
 });
 
 //view for day
@@ -76,12 +74,26 @@ var DayCollectionView = Backbone.View.extend({
 		idCount++;
 	},
 	add_day_view : function(new_model){
-		var default_day_value = this.collection.models[this.collection.models.length-2].get("value");
-		var day_value = default_day_value + 1;
-		new_model.set("value", day_value);
-		var view = new DayView({model: new_model});
-		view.render();
-		$("#calendarDiv").append(view.$el);
+		var default_day_value, day_value;
+		console.log(this.collection.models[0].attributes.value);
+		// if(this.collection.models[0].attributes.value === 0){
+		// 	for(var i = 0; i<3; i++){
+		// 		default_day_value = this.collection.models[this.collection.models.length-2].get("value");
+		// 		day_value = default_day_value + 1;
+		// 		new_model.set("value", day_value);
+		// 		var view = new DayView({model: new_model});
+		// 		view.render();
+		// 		$("#calendarDiv").append(view.$el);
+		// 	}
+		// } else{
+			default_day_value = this.collection.models[this.collection.models.length-2].get("value");
+			day_value = default_day_value + 1;
+			console.log('ran add day value');
+			new_model.set("value", day_value);
+			var view = new DayView({model: new_model});
+			view.render();
+			$("#calendarDiv").append(view.$el);
+		// }
 	}
 })
 

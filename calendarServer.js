@@ -8,33 +8,59 @@ app.use(bodyParser.urlencoded({extended : false}));
 app.use(express.static(__dirname));
 
 var dates = [];
+// var events = [];
 
 //get: fetch from the Day_model, return the JSON object that packs up the value property from the dates array on the server
 
 //request data from resource
 app.get('/dates/:id', function(req, res){
 	var id = req.params.id;
-	console.log("get" + id);
+	console.log("get dates");
+	// console.log(dates);
 	res.send(JSON.stringify({value: dates[id]}));
 });
 
+// app.get('/events/:id', function(req, res){
+// 	var event_str = req.params.id;
+// 	console.log("get events");
+// 	res.send(JSON.stringify({event: events[event_str]}));
+// })
+app.post('/dates/:id', function(req, res){
+	console.log('post');
+	var id = req.params.id;
+	var date_value = req.body.date_value;
+	var event_value = req.body.event_value;
+	res.send('post sent');
+});
 //put: used when we modify the Day_model
 //Uploads a representation of the specified URI
-app.put('/dates/:id', function(req, res){
-	console.log('put');
-	var id = req.params.id;
-	dates[id] = req.body.value;
-	res.end(JSON.stringify({id:id}));
+// app.put('/dates/:id', function(req, res){
+// 	console.log('put');
+// 	var id = req.params.id;
+// 	dates[id] = req.body.value;
+// 	res.end(JSON.stringify({id:id}));
 
-});
+// });
+
+// app.put('/events/id', function(req, res){
+// 	console.log('put events');
+// 	var event_id = req.params.event_id;
+// 	events[event_id] = req.body.value;
+// 	res.end(JSON.stringify({event_id:event_id}));
+// });
 
 //get: used to initialize the data for the Day_collection, and pack up the array of objects to feed into the collection and send it
 app.get('/dates', function(req, res){
-	console.log('sending collection');
 	var dates_and_ids = dates.map(function(v, i){
 		return {id : i, value : v};
 	});
 	res.send(dates_and_ids);
+	// console.log('sending collection');
+	// var data_collection = dates.map(function(v, i, e){
+	// 	return {id : i, value : v, event : e};
+	// });
+	// console.log(data_collection);
+	// res.send(data_collection);
 });
 
 
