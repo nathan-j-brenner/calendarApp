@@ -19,7 +19,7 @@ var DayView = Backbone.View.extend({
 	render	: function(){
 		var day_value = this.model.get("value");
 		var event_value = this.model.get("event");
-		var event_btn = '<button id="add_event">Add Event</button>'
+		var event_btn = '<form method="post"><button type="submit" formmethod="post" id="add_event">Add Event</button></form>'
 		var input = '<input type="text" class="event"></input>';
 		this.$el.html('<div class="day"><p id="date">' + day_value + '</p>' + '<br><p>' + event_value + '<p>' + '<br>' + input + event_btn + '</div>');
 	},
@@ -59,7 +59,7 @@ var DayCollectionView = Backbone.View.extend({
 	render : function(){
 		// var day_value = this.model.get("value");
 		// var current_day = '<p>' + day_value + '</p>';
-		var add_day_btn = '<button id="add_day">Add Day</button>';
+		var add_day_btn = '<form method="post" action="/dates"><button type="submit" id="add_day">Add Day</button></form>';
 		this.$el.html(add_day_btn);
 	},
 	initialize: function(){

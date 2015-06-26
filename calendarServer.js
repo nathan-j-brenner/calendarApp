@@ -25,22 +25,27 @@ app.get('/dates/:id', function(req, res){
 // 	console.log("get events");
 // 	res.send(JSON.stringify({event: events[event_str]}));
 // })
-app.post('/dates/:id', function(req, res){
-	console.log('post');
-	var id = req.params.id;
-	var date_value = req.body.date_value;
-	var event_value = req.body.event_value;
-	res.send('post sent');
+
+//send data to the server
+app.post('/dates', function(req, res){
+	console.log('post' + dates);
+	var date_value = req.params.id;
+	dates[date_value] = req.body.value;
+	// res.end(JSON.stringify({id:id}));
+	// var date_value = req.body.date_value;
+	// var event_value = req.body.event_value;
+	// console.log(date_value);
 });
 //put: used when we modify the Day_model
 //Uploads a representation of the specified URI
-// app.put('/dates/:id', function(req, res){
-// 	console.log('put');
-// 	var id = req.params.id;
-// 	dates[id] = req.body.value;
-// 	res.end(JSON.stringify({id:id}));
+//replace current data from server
+app.put('/dates/:id', function(req, res){
+	console.log('put');
+	var id = req.params.id;
+	dates[id] = req.body.value;
+	res.end(JSON.stringify({id:id}));
 
-// });
+});
 
 // app.put('/events/id', function(req, res){
 // 	console.log('put events');
