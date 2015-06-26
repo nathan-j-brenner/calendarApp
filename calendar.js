@@ -1,15 +1,19 @@
 //model for day
 var DayModel = Backbone.Model.extend({
-	defaults : {"value" : 0, "event": ""}, //value will represent the date of a month
-	initialize : function(){
-		this.fetch();
-	},
-	replace_number : function(number){
-		this.set({"value" : number});
-		this.save();
-	},
-	replace_event : function(str_event){
-		this.set({'event': str_event});
+	defaults : {"day" : 0, "event": ""}, //value will represent the date of a month
+	// initialize : function(){
+	// 	this.fetch();
+	// },
+	// replace_number : function(number){
+	// 	this.set({"day" : number});
+	// 	this.save();
+	// },
+	// replace_event : function(str_event){
+	// 	this.set({'event': str_event});
+	// 	this.save();
+	// },
+	replace : function(number, str_event){
+		this.set({"day" : number, "event": str_event});
 		this.save();
 	}
 });
@@ -17,9 +21,9 @@ var DayModel = Backbone.Model.extend({
 //view for day
 var DayView = Backbone.View.extend({
 	render	: function(){
-		var day_value = this.model.get("value");
+		var day_value = this.model.get("day");
 		var event_value = this.model.get("event");
-		var event_btn = '<form method="post" action="/dates"><button type="submit" id="add_event">Add Event</button></form>'
+		var event_btn = '<button type="submit" id="add_event">Add Event</button>'
 		var input = '<input type="text" class="event"></input>';
 		this.$el.html('<div class="day"><p id="date">' + day_value + '</p>' + '<br><p>' + event_value + '<p>' + '<br>' + input + event_btn + '</div>');
 	},
@@ -29,7 +33,7 @@ var DayView = Backbone.View.extend({
 	replace_number : function(){
 		var default_day = this.$el.find("#date").val();
 		var next_date = default_day + 1;
-		this.model.replace_number(next_date);
+		this.model.replace(next_date);
 	},
 	events : {
 		'click #add_event' : "create_new_event"
@@ -37,7 +41,9 @@ var DayView = Backbone.View.extend({
 	create_new_event : function(){
 		//probably need to take this code and put in another collection
 		var str = this.$el.find("input").val();
-		this.model.replace_event(str);
+		var day = this.model.get("day");
+		this.model.replace(day, str);
+		// this.model.replace_event(str);
 		// console.log(this.models[1].attributes);
 		// console.log(this.model.attributes);
 	}
@@ -52,14 +58,12 @@ var DayCollection = Backbone.Collection.extend({
 	}
 });
 
-var idCount = 0;
-
 //view for day collection
 var DayCollectionView = Backbone.View.extend({
 	render : function(){
 		// var day_value = this.model.get("value");
 		// var current_day = '<p>' + day_value + '</p>';
-		var add_day_btn = '<form method="post" action="/dates"><button type="submit" id="add_day">Add Day</button></form>';
+		var add_day_btn = '<button type="submit" id="add_day">Add Day</button>';
 		this.$el.html(add_day_btn);
 	},
 	initialize: function(){
@@ -70,26 +74,27 @@ var DayCollectionView = Backbone.View.extend({
 		'click #add_day' : 'add_day_collection'
 	},
 	add_day_collection : function(){
-		this.collection.create({id: idCount});
-		idCount++;
+		this.collection.create({day:this.collection.length+1});
 	},
 	add_day_view : function(new_model){
 		var default_day_value, day_value;
-		console.log(this.collection.models[0].attributes.value);
-		// if(this.collection.models[0].attributes.value === 0){
+		// console.log(this.collection.models[0].attributes.value);
+		// if(this.collection.models[0].attributes.value < 3){
 		// 	for(var i = 0; i<3; i++){
 		// 		default_day_value = this.collection.models[this.collection.models.length-2].get("value");
 		// 		day_value = default_day_value + 1;
 		// 		new_model.set("value", day_value);
 		// 		var view = new DayView({model: new_model});
-		// 		view.render();
-		// 		$("#calendarDiv").append(view.$el);
+		// 		// view.render();
+		// 		// $("#calendarDiv").append(view.$el);
+		// 		console.log("test");
 		// 	}
 		// } else{
-			default_day_value = this.collection.models[this.collection.models.length-2].get("value");
-			day_value = default_day_value + 1;
+			// day_value = this.collection.models.length;
+			// default_day_value = this.collection.models[this.collection.models.length-2].get("day");
+			// day_value = default_day_value + 1;
 			console.log('ran add day value');
-			new_model.set("value", day_value);
+			// new_model.set("day", day_value);
 			var view = new DayView({model: new_model});
 			view.render();
 			$("#calendarDiv").append(view.$el);

@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({extended : false}));
 app.use(express.static(__dirname));
 
 var dates = [];
-//var dates = [{id, day, event}]
+//var dates = [{id:{id, day, event}, ]
 // var events = [];
 
 //get: fetch from the Day_model, return the JSON object that packs up the value property from the dates array on the server
@@ -18,7 +18,7 @@ app.get('/dates/:id', function(req, res){
 	var id = req.params.id;
 	console.log("get dates");
 	// console.log(dates);
-	res.send(JSON.stringify({value: dates[id]}));
+	res.send(JSON.stringify(dates[id]));
 });
 
 // app.get('/events/:id', function(req, res){
@@ -28,20 +28,33 @@ app.get('/dates/:id', function(req, res){
 // })
 
 //send data to the server
-app.post('/dates', function(req, res){
+app.post('/dates/', function(req, res){
 	// console.log('post' + dates);
-	var id = req.params.id;
-	dates[id] = req.body;
-	console.log("posts" + dates);
+	var id = dates.length;
+	// dates[id] = id;
+	// console.log(id);
+
+	dates[id] = {id:id, day:req.body.day, event: req.body.event};
+	console.log("posts", dates);
+	res.send(JSON.stringify({id:id}));
 });
 //put: used when we modify the Day_model
 //Uploads a representation of the specified URI
 //replace current data from server
 app.put('/dates/:id', function(req, res){
-	console.log('put');
+	var day_object = {
+		id: req.body.id,
+		day: req.body.day,
+		event: req.body.event
+	};
+	console.log('put' + dates);
 	var id = req.params.id;
-	dates[id] = req.body.event;
+	dates[id] = day_object;
+	console.log(day_object);
+	// dates[id] = req.body.event;
+	// var that captures date sub id, redefined datesub id
 	res.end(JSON.stringify({id:id}));
+	// console.log(JSON.stringify({id:id}));
 });
 
 // app.put('/events/id', function(req, res){
@@ -53,10 +66,8 @@ app.put('/dates/:id', function(req, res){
 
 //get: used to initialize the data for the Day_collection, and pack up the array of objects to feed into the collection and send it
 app.get('/dates', function(req, res){
-	var dates_and_ids = dates.map(function(v, i){
-		return {id : i, value : v};
-	});
-	res.send(dates_and_ids);
+
+	res.send(dates);
 	// console.log('sending collection');
 	// var data_collection = dates.map(function(v, i, e){
 	// 	return {id : i, value : v, event : e};
