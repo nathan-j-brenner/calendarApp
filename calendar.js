@@ -4,10 +4,16 @@ var DayModel = Backbone.Model.extend({
 	initialize : function(){
 		this.fetch();
 	},
-	replace : function(number){
+	replace_number : function(number){
 		this.set({"value" : number});
 		this.save();
+	},
+	replace_event : function(str_event){
+		this.set({'event': str_event});
+		this.save();
 	}
+
+
 });
 
 //view for day
@@ -17,16 +23,15 @@ var DayView = Backbone.View.extend({
 		var event_value = this.model.get("event");
 		var event_btn = '<button id="add_event">Add Event</button>'
 		var input = '<input type="text" class="event"></input>';
-		var input_text = '';
-		this.$el.html('<div class="day"><p id="date">' + day_value + '</p>' + '<br><p>' + input_text + '<p>' + '<br>' + input + event_btn + '</div>');
+		this.$el.html('<div class="day"><p id="date">' + day_value + '</p>' + '<br><p>' + event_value + '<p>' + '<br>' + input + event_btn + '</div>');
 	},
 	initialize: function(){
 		this.model.on("change", this.render, this);
 	},
-	replace : function(){
+	replace_number : function(){
 		var default_day = this.$el.find("#date").val();
 		var next_date = default_day + 1;
-		this.model.replace(next_date);
+		this.model.replace_number(next_date);
 	},
 	events : {
 		'click #add_event' : "create_new_event"
@@ -34,7 +39,9 @@ var DayView = Backbone.View.extend({
 	create_new_event : function(){
 		//probably need to take this code and put in another collection
 		var str = this.$el.find("input").val();
-		this.model.replace(input_text);
+		this.model.replace_event(str);
+		// console.log(this.models[1].attributes);
+		// console.log(this.model.attributes);
 	}
 });
 
