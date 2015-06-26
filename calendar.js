@@ -42,14 +42,15 @@ var DayCollection = Backbone.Collection.extend({
 
 var DayCollectionView = Backbone.View.extend({
 	render : function(){
-		var add_day_btn = '<button type="submit" id="add_day">Add Day</button>';
+		var add_day_btn = '<button type="submit" id="add_day">Add Day</button><button type"submit" id="add_month">Add Month</button>';
 		this.$el.html(add_day_btn);
 	},
 	initialize: function(){
 		this.listenTo(this.collection, 'add', this.add_day_view);
 	},
 	events : {
-		'click #add_day' : 'add_day_collection'
+		'click #add_day' : 'add_day_collection',
+		'click #add_month' : 'add_month_collection'
 	},
 	add_day_collection : function(){
 		this.collection.create({day:this.collection.length+1});
@@ -58,6 +59,12 @@ var DayCollectionView = Backbone.View.extend({
 		var view = new DayView({model: new_model});
 		view.render();
 		$("#calendarDiv").append(view.$el);
+	},
+	add_month_collection : function(){
+		var month_length = 31;
+		for(var i = 0; i<month_length; i++){
+			this.add_day_collection();
+		}
 	}
 });
 
