@@ -1,24 +1,11 @@
-//model for day
 var DayModel = Backbone.Model.extend({
 	defaults : {"day" : 0, "event": ""}, //value will represent the date of a month
-	// initialize : function(){
-	// 	this.fetch();
-	// },
-	// replace_number : function(number){
-	// 	this.set({"day" : number});
-	// 	this.save();
-	// },
-	// replace_event : function(str_event){
-	// 	this.set({'event': str_event});
-	// 	this.save();
-	// },
 	replace : function(number, str_event){
 		this.set({"day" : number, "event": str_event});
 		this.save();
 	}
 });
 
-//view for day
 var DayView = Backbone.View.extend({
 	render	: function(){
 		var day_value = this.model.get("day");
@@ -39,17 +26,12 @@ var DayView = Backbone.View.extend({
 		'click #add_event' : "create_new_event"
 	},
 	create_new_event : function(){
-		//probably need to take this code and put in another collection
 		var str = this.$el.find("input").val();
 		var day = this.model.get("day");
 		this.model.replace(day, str);
-		// this.model.replace_event(str);
-		// console.log(this.models[1].attributes);
-		// console.log(this.model.attributes);
 	}
 });
 
-//collection for days
 var DayCollection = Backbone.Collection.extend({
 	model : DayModel,
 	url : "/dates",
@@ -58,11 +40,8 @@ var DayCollection = Backbone.Collection.extend({
 	}
 });
 
-//view for day collection
 var DayCollectionView = Backbone.View.extend({
 	render : function(){
-		// var day_value = this.model.get("value");
-		// var current_day = '<p>' + day_value + '</p>';
 		var add_day_btn = '<button type="submit" id="add_day">Add Day</button>';
 		this.$el.html(add_day_btn);
 	},
@@ -70,37 +49,17 @@ var DayCollectionView = Backbone.View.extend({
 		this.listenTo(this.collection, 'add', this.add_day_view);
 	},
 	events : {
-		// 'click #add_day' : 'add_day_model'
 		'click #add_day' : 'add_day_collection'
 	},
 	add_day_collection : function(){
 		this.collection.create({day:this.collection.length+1});
 	},
 	add_day_view : function(new_model){
-		var default_day_value, day_value;
-		// console.log(this.collection.models[0].attributes.value);
-		// if(this.collection.models[0].attributes.value < 3){
-		// 	for(var i = 0; i<3; i++){
-		// 		default_day_value = this.collection.models[this.collection.models.length-2].get("value");
-		// 		day_value = default_day_value + 1;
-		// 		new_model.set("value", day_value);
-		// 		var view = new DayView({model: new_model});
-		// 		// view.render();
-		// 		// $("#calendarDiv").append(view.$el);
-		// 		console.log("test");
-		// 	}
-		// } else{
-			// day_value = this.collection.models.length;
-			// default_day_value = this.collection.models[this.collection.models.length-2].get("day");
-			// day_value = default_day_value + 1;
-			console.log('ran add day value');
-			// new_model.set("day", day_value);
-			var view = new DayView({model: new_model});
-			view.render();
-			$("#calendarDiv").append(view.$el);
-		// }
+		var view = new DayView({model: new_model});
+		view.render();
+		$("#calendarDiv").append(view.$el);
 	}
-})
+});
 
 var dayCollection, dayCollectionView;
 $(document).ready(function(){
