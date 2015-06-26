@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({extended : false}));
 app.use(express.static(__dirname));
 
 var dates = [];
+//var dates = [{id, day, event}]
 // var events = [];
 
 //get: fetch from the Day_model, return the JSON object that packs up the value property from the dates array on the server
@@ -28,13 +29,10 @@ app.get('/dates/:id', function(req, res){
 
 //send data to the server
 app.post('/dates', function(req, res){
-	console.log('post' + dates);
-	var date_value = req.params.id;
-	dates[date_value] = req.body.value;
-	// res.end(JSON.stringify({id:id}));
-	// var date_value = req.body.date_value;
-	// var event_value = req.body.event_value;
-	// console.log(date_value);
+	// console.log('post' + dates);
+	var id = req.params.id;
+	dates[id] = req.body;
+	console.log("posts" + dates);
 });
 //put: used when we modify the Day_model
 //Uploads a representation of the specified URI
@@ -42,9 +40,8 @@ app.post('/dates', function(req, res){
 app.put('/dates/:id', function(req, res){
 	console.log('put');
 	var id = req.params.id;
-	dates[id] = req.body.value;
+	dates[id] = req.body.event;
 	res.end(JSON.stringify({id:id}));
-
 });
 
 // app.put('/events/id', function(req, res){

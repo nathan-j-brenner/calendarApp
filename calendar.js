@@ -19,7 +19,7 @@ var DayView = Backbone.View.extend({
 	render	: function(){
 		var day_value = this.model.get("value");
 		var event_value = this.model.get("event");
-		var event_btn = '<form method="post"><button type="submit" formmethod="post" id="add_event">Add Event</button></form>'
+		var event_btn = '<form method="post" action="/dates"><button type="submit" id="add_event">Add Event</button></form>'
 		var input = '<input type="text" class="event"></input>';
 		this.$el.html('<div class="day"><p id="date">' + day_value + '</p>' + '<br><p>' + event_value + '<p>' + '<br>' + input + event_btn + '</div>');
 	},
