@@ -1,3 +1,8 @@
+_.templateSettings = {
+	interpolate: /\{\{(.+?)\}\}/g
+}
+// var template = _.template();
+
 var DayModel = Backbone.Model.extend({
 	defaults : {"day" : 0, "event": ""}, //value will represent the date of a month
 	replace : function(number, str_event){
@@ -8,11 +13,27 @@ var DayModel = Backbone.Model.extend({
 
 var DayView = Backbone.View.extend({
 	render	: function(){
-		var day_value = this.model.get("day");
-		var event_value = this.model.get("event");
-		var event_btn = '<button type="submit" id="add_event">Add Event</button>'
-		var input = '<input type="text" class="event"></input>';
-		this.$el.html('<div class="day"><p id="date">' + day_value + '</p>' + '<br><p>' + event_value + '<p>' + '<br>' + input + event_btn + '</div>');
+		// var day_value = this.model.get("day");
+		// var event_value = this.model.get("event");
+		// var event_btn = '<button type="submit" id="add_event">Add Event</button>'
+		// var input = '<input type="text" class="event"></input>';
+		var template = _.template('<div class="day"><p id="date">{{day_value}}</p><br><p>{{event_value}}<p><br><input type="text" class="event"></input><button type="submit" id="add_event">Add Event</button></div>');
+		this.$el.html(
+			template(
+				{
+					day_value : this.model.get("day"), 
+					event_value: this.model.get("event")
+				}
+			)
+		);
+		// this.$el.html('<div class="day"><p id="date">' + day_value + '</p>' + '<br><p>' + event_value + '<p>' + '<br>' + input + event_btn+'</div>');
+			// '<div class="day">
+			// 	<p id="date">' + day_value + '</p>' + 
+			// 	'<br>
+			// 	<p>' + event_value + '<p>' + 
+			// 	'<br>' 
+			// 	+ input + event_btn + 
+			// '</div>');
 	},
 	initialize: function(){
 		this.model.on("change", this.render, this);
@@ -42,8 +63,9 @@ var DayCollection = Backbone.Collection.extend({
 
 var DayCollectionView = Backbone.View.extend({
 	render : function(){
-		var add_day_btn = '<button type="submit" id="add_day">Add Day</button><button type"submit" id="add_month">Add Month</button>';
-		this.$el.html(add_day_btn);
+		var add_day_btn = '<button type="submit" id="add_day">Add Day</button>';
+		var add_month_btn = '<button type"submit" id="add_month">Add Month</button>';
+		this.$el.html(add_day_btn + add_month_btn);
 	},
 	initialize: function(){
 		this.listenTo(this.collection, 'add', this.add_day_view);
@@ -89,13 +111,13 @@ var MyRouter = Backbone.Router.extend({
 		this.view = new DayView();
 	},
 	dayCollection: function(){
-		this.view = new DayCollectionView();
+		this.view = new DayCollectionView({collection: dayCollection});
 	}
 });
 
-var view;
-$(function(){
-//	view = new RedirectView();
-	var router = new MyRouter();
-	Backbone.history.start();
-});
+// var view;
+// $(function(){
+// //	view = new RedirectView();
+// 	var router = new MyRouter();
+// 	Backbone.history.start();
+// });
