@@ -76,9 +76,26 @@ $(function(){
 	$("#calendarDiv").append(dayCollectionView.$el);
 });
 
-// var view;
-// $(function(){
-// //	view = new RedirectView();
-// 	var router = new MyRouter();
-// 	Backbone.history.start();
-// });
+var MyRouter = Backbone.Router.extend({
+	routes: {
+		'': 'dayCollection',
+		'day' : 'dayView',
+		'dayCollection': 'dayCollection'
+	},
+	display: function(){
+		this.view.render();
+	},
+	day: function(){
+		this.view = new DayView();
+	},
+	dayCollection: function(){
+		this.view = new DayCollectionView();
+	}
+});
+
+var view;
+$(function(){
+//	view = new RedirectView();
+	var router = new MyRouter();
+	Backbone.history.start();
+});
