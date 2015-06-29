@@ -69,9 +69,16 @@ var DayCollectionView = Backbone.View.extend({
 });
 
 var dayCollection, dayCollectionView;
-$(document).ready(function(){
+$(function(){
 	dayCollection = new DayCollection();
 	dayCollectionView = new DayCollectionView({collection : dayCollection});
 	dayCollectionView.render();
 	$("#calendarDiv").append(dayCollectionView.$el);
 });
+
+// var view;
+// $(function(){
+// //	view = new RedirectView();
+// 	var router = new MyRouter();
+// 	Backbone.history.start();
+// });
