@@ -53,9 +53,11 @@ var DayCollection = Backbone.Collection.extend({
 var DayCollectionView = Backbone.View.extend({
 	el: '#calendarDiv',
 	render : function(){
-		var add_day_btn = '<button type="submit" id="add_day">Add Day</button>';
-		var add_month_btn = '<button type"submit" id="add_month">Add Month</button>';
-		this.$el.html(add_day_btn + add_month_btn);
+		var template = _.template('<div><button type="submit" id="add_day">Add Day</button><button type"submit" id="add_month">Add Month</button></div>');
+		this.$el.html(template());
+		// var add_day_btn = '<button type="submit" id="add_day">Add Day</button>';
+		// var add_month_btn = '<button type"submit" id="add_month">Add Month</button>';
+		// this.$el.html(add_day_btn + add_month_btn);
 	},
 	initialize: function(){
 		this.listenTo(this.collection, 'add', this.add_day_view);
