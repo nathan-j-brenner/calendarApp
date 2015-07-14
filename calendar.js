@@ -5,10 +5,58 @@ _.templateSettings = {
 var DayModel = Backbone.Model.extend({
 	defaults : {"day" : 0, "date" : "", "event": ""}, //value will represent the date of a month
 	replace : function(number, str_event){
-		this.set({"day" : number, "event": str_event});
+		this.find_date(number);
+		this.set({"day" : number, "date": day_num_date, "event": str_event});
+		this.save();
+	},
+	find_date: function(num){
+		var month = "";
+		var date = "";
+		if(day_num<32){
+			month = "January";
+			date = day_num;
+		} else if (day_num<60){
+			month = "February";
+			date = day_num - 31;// day_number - last months days
+		} else if(day_num<91){
+			month = "March";
+			date = day_num - 59;
+		} else if(day_num<121){
+			month = "April";
+			date = day_num - 90;
+		}else if(day_num<152){
+			month = "May";
+			date = day_num - 120;
+		}else if(day_num<182){
+			month = "June";
+			date = day_num - 151;
+		}else if(day_num<213){
+			month = "July";
+			date = day_num - 181;
+		}else if(day_num<244){
+			month = "August";
+			date = day_num - 212;
+		}else if(day_num<274){
+			month = "September";
+			date = day_num - 243;
+		}else if(day_num<305){
+			month = "October";
+			date = day_num - 273;
+		}else if(day_num<335){
+			month = "November";
+			date = day_num - 304;
+		} else if (day_num<365){
+			month = "December";
+			date = day_num - 334;
+		}
+		var day_num_date = "Date : " + month + " " + date + ", 2015.";
+		var err = "That day is not in 2015";
+		console.log(err || day_num_date);
+	},
+	replace : function(number, str_event){
+		this.set({"day" : number, "date": "", "event": str_event});
 		this.save();
 	}
-
 });
 
 var DayView = Backbone.View.extend({
