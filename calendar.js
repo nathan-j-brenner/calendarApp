@@ -3,11 +3,12 @@ _.templateSettings = {
 }
 
 var DayModel = Backbone.Model.extend({
-	defaults : {"day" : 0, "event": ""}, //value will represent the date of a month
+	defaults : {"day" : 0, "date" : "", "event": ""}, //value will represent the date of a month
 	replace : function(number, str_event){
 		this.set({"day" : number, "event": str_event});
 		this.save();
 	}
+
 });
 
 var DayView = Backbone.View.extend({
